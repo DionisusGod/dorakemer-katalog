@@ -4,21 +4,18 @@ export default function Catalog() {
   const pages = Array.from({ length: 22 }, (_, i) => i + 1);
 
   return (
-    // Ana kapsayıcı relative yapıldı
-    <main className="relative w-full bg-white">
+    <main className="w-full bg-white min-h-screen">
       
-      {/* 1. EKRAN: SABİT (STICKY) KAPAK 
-          Kapak ekranda sabit kalır (sticky top-0), z-0 ile en alt katmana atılır.
-      */}
-      <section className="sticky top-0 w-full h-[100dvh] overflow-hidden bg-white z-0">
+      {/* 1. EKRAN: Tam Ekran Kapak (Normal kaydırma akışında) */}
+      <section className="relative w-full h-[100dvh] overflow-hidden bg-stone-900">
         
-        {/* KAPAK FOTOSU */}
-        <div className="absolute inset-0 w-full h-full flex items-center justify-center">
+        {/* KAPAK FOTOSU: Boşlukları yok etmek için tekrar object-cover yapıldı */}
+        <div className="absolute inset-0 w-full h-full">
           <Image 
             src="/images/kapak.png"
             alt="Dora Kemer Kapak"
             fill
-            className="object-contain object-center" 
+            className="object-cover object-center" 
             priority
             sizes="100vw"
             quality={100}
@@ -26,11 +23,11 @@ export default function Catalog() {
           />
         </div>
 
-        {/* Yazı Okunabilirliği İçin Degrade */}
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/20 to-transparent z-10 pointer-events-none"></div>
+        {/* Yazının okunaklı olması için alt kısımdaki zarif karanlık geçiş */}
+        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black/50 to-transparent z-10 pointer-events-none"></div>
         
         {/* Yukarı Kaydır Animasyonu */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce flex flex-col items-center text-white">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce flex flex-col items-center text-white">
           <span className="text-[11px] tracking-[0.4em] uppercase mb-2 font-semibold drop-shadow-md">
             Kaydır
           </span>
@@ -51,11 +48,8 @@ export default function Catalog() {
         </div>
       </section>
 
-      {/* 2. KISIM: KATALOG SAYFALARI (Kapağın üstüne kayarak çıkar) 
-          z-10 verilerek kapağın (z-0) üzerine çıkması sağlandı. 
-          Üst kısımdaki gölge (shadow) sayesinde katman hissi güçlendirildi.
-      */}
-      <section className="relative z-10 w-full flex flex-col bg-white shadow-[0_-20px_50px_rgba(0,0,0,0.15)]">
+      {/* 2. KISIM: Katalog Sayfaları (Kapağın hemen altından doğal akışla gelir) */}
+      <section className="w-full flex flex-col bg-white">
         {pages.map((pageNumber) => (
           <Image 
             key={pageNumber}

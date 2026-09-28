@@ -9,19 +9,22 @@ export default function Catalog() {
       
       {/* 1. EKRAN: Tam Ekran Kapak ve Animasyon */}
       <section className="relative w-full h-[100dvh] flex flex-col justify-end items-center pb-12 overflow-hidden">
-        <Image 
-          src="/images/kapak.jpeg"
-          alt="Dora Kemer Kapak"
-          fill
-          className="object-cover object-center -z-10"
-          priority
-          unoptimized
-          sizes="100vw"
-        />
         
-        {/* Yukarı Kaydır / Zıplama Animasyonu */}
-        <div className="animate-bounce flex flex-col items-center text-white drop-shadow-lg">
-          <span className="text-[10px] tracking-[0.3em] uppercase mb-2 opacity-90 font-medium">
+        {/* KAPAK FOTOSU: Eksi katman hatası giderildi, arka plan yapıldı */}
+        <div className="absolute inset-0 w-full h-full">
+          <Image 
+            src="/images/kapak.jpeg"
+            alt="Dora Kemer Kapak"
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+          />
+        </div>
+        
+        {/* Yukarı Kaydır Animasyonu: Görselin üstünde kalması için z-10 eklendi */}
+        <div className="relative z-10 animate-bounce flex flex-col items-center text-white drop-shadow-2xl">
+          <span className="text-[10px] tracking-[0.3em] uppercase mb-2 opacity-90 font-bold drop-shadow-lg">
             Kaydır
           </span>
           <svg 
@@ -34,14 +37,14 @@ export default function Catalog() {
             strokeWidth="2" 
             strokeLinecap="round" 
             strokeLinejoin="round" 
-            className="opacity-90"
+            className="opacity-90 drop-shadow-lg"
           >
             <path d="m6 9 6 6 6-6"/>
           </svg>
         </div>
       </section>
 
-      {/* 2. KISIM: Katalog Sayfaları (Sıfır Kenar Boşluğu) */}
+      {/* 2. KISIM: Katalog Sayfaları */}
       <section className="w-full flex flex-col bg-white">
         {pages.map((pageNumber) => (
           <Image 

@@ -1,69 +1,94 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 
 export default function Catalog() {
+  // Kataloğun açık olup olmadığını takip eden sistem
+  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const pages = Array.from({ length: 22 }, (_, i) => i + 1);
 
-  return (
-    <main className="w-full bg-white min-h-screen">
-      
-      {/* 1. EKRAN: Tam Ekran Kapak (Normal kaydırma akışında) */}
-      <section className="relative w-full h-[100dvh] overflow-hidden bg-stone-900">
-        
-        {/* KAPAK FOTOSU: Boşlukları yok etmek için tekrar object-cover yapıldı */}
-        <div className="absolute inset-0 w-full h-full">
+  // 1. DURUM: KATALOG KAPALIYKEN GÖRÜNECEK GİRİŞ EKRANI
+  if (!isCatalogOpen) {
+    return (
+      <main 
+        // Tüm ekrana tıklanabilme özelliği verildi
+        className="relative w-full h-[100dvh] bg-stone-900 flex items-center justify-center cursor-pointer overflow-hidden"
+        onClick={() => setIsCatalogOpen(true)}
+      >
+        {/* GİRİŞ ARKA PLAN GÖRSELİ (Kendi istediğiniz arkaplanı buraya atayabilirsiniz) */}
+        <div className="absolute inset-0 w-full h-full opacity-60">
           <Image 
-            src="/images/kapak.png"
-            alt="Dora Kemer Kapak"
+            src="/images/arkaplan.png" // Arka plan görselinizin adı
+            alt="Dora Kemer Giriş"
             fill
-            className="object-cover object-center" 
+            className="object-cover object-center"
             priority
-            sizes="100vw"
             quality={100}
             unoptimized
           />
         </div>
 
-        {/* Yazının okunaklı olması için alt kısımdaki zarif karanlık geçiş */}
-        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black/50 to-transparent z-10 pointer-events-none"></div>
-        
-        {/* Yukarı Kaydır Animasyonu */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce flex flex-col items-center text-white">
-          <span className="text-[11px] tracking-[0.4em] uppercase mb-2 font-semibold drop-shadow-md">
-            Kaydır
+        {/* TIKLA BUTONU VE İKONU */}
+        <div className="relative z-10 flex flex-col items-center justify-center animate-pulse hover:scale-105 transition-transform duration-500">
+          
+          {/* Büyük minimalist yuvarlak ikon */}
+          <div className="w-28 h-28 md:w-32 md:h-32 rounded-full border-[1px] border-white/60 bg-black/20 backdrop-blur-sm flex items-center justify-center mb-6 shadow-2xl">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="36" 
+              height="36" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="white" 
+              strokeWidth="1.5" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+          
+          {/* Tıkla Yazısı */}
+          <span className="text-white tracking-[0.6em] font-light text-xs md:text-sm uppercase drop-shadow-md">
+            Kataloğu İncele
           </span>
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="26" 
-            height="26" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            className="drop-shadow-md"
-          >
-            <path d="m6 9 6 6 6-6"/>
-          </svg>
+          
         </div>
-      </section>
+      </main>
+    );
+  }
 
-      {/* 2. KISIM: Katalog Sayfaları (Kapağın hemen altından doğal akışla gelir) */}
-      <section className="w-full flex flex-col bg-white">
-        {pages.map((pageNumber) => (
-          <Image 
-            key={pageNumber}
-            src={`/images/sayfa-${pageNumber}.jpeg`} 
-            alt={`Dora Kemer - Sayfa ${pageNumber}`} 
-            width={1240} 
-            height={1754} 
-            className="w-full h-auto object-cover block"
-            priority={pageNumber <= 2}
-            quality={100}
-            unoptimized 
-          />
-        ))}
-      </section>
+  // 2. DURUM: TIKLANDIKTAN SONRA AÇILACAK KATALOG
+  return (
+    <main className="w-full flex flex-col bg-white animate-in fade-in duration-1000">
+      
+      {/* Kapak Görseli (Artık 1. sayfa gibi davranıyor) */}
+      <Image 
+        src="/images/kapak.jpeg"
+        alt="Dora Kemer Kapak"
+        width={1240}
+        height={1754}
+        className="w-full h-auto object-cover block"
+        priority
+        quality={100}
+        unoptimized
+      />
+
+      {/* Diğer 22 Sayfa */}
+      {pages.map((pageNumber) => (
+        <Image 
+          key={pageNumber}
+          src={`/images/sayfa-${pageNumber}.jpeg`} 
+          alt={`Dora Kemer - Sayfa ${pageNumber}`} 
+          width={1240} 
+          height={1754} 
+          className="w-full h-auto object-cover block"
+          priority={pageNumber <= 2}
+          quality={100}
+          unoptimized 
+        />
+      ))}
       
     </main>
   );

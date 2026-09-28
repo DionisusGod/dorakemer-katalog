@@ -1,48 +1,60 @@
 import Image from "next/image";
 
 export default function Catalog() {
-  // 1'den 22'ye kadar sayıları içeren bir dizi oluşturur
+  // 1'den 22'ye kadar sayıları içeren bir dizi
   const pages = Array.from({ length: 22 }, (_, i) => i + 1);
 
   return (
-    <div className="min-h-screen bg-stone-50 text-stone-900 font-sans">
-      {/* Üst Bilgi / Header */}
-      <header className="w-full py-16 flex flex-col items-center justify-center bg-white border-b border-stone-200">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-widest uppercase">
-          Dora Kemer
-        </h1>
-        <p className="mt-4 text-stone-500 uppercase tracking-widest text-sm font-medium">
-          B2B Koleksiyon Kataloğu
-        </p>
-      </header>
-
-      {/* Ana İçerik ve Görseller */}
-      <main className="max-w-5xl mx-auto py-12 px-4 flex flex-col items-center gap-12">
+    <main className="w-full bg-white min-h-screen">
+      
+      {/* 1. EKRAN: Tam Ekran Kapak ve Animasyon */}
+      <section className="relative w-full h-[100dvh] flex flex-col justify-end items-center pb-12 overflow-hidden">
+        <Image 
+          src="/images/kapak.png"
+          alt="Dora Kemer Kapak"
+          fill
+          className="object-cover object-center -z-10"
+          priority
+          sizes="100vw"
+        />
         
-        {/* Katalog Sayfaları Konteyneri */}
-        <div className="w-full shadow-2xl bg-white flex flex-col border border-stone-100">
-          
-          {pages.map((pageNumber) => (
-            <Image 
-              key={pageNumber}
-              src={`/images/sayfa-${pageNumber}.jpeg`} 
-              alt={`Dora Kemer - Sayfa ${pageNumber}`} 
-              // A4 formatı piksel oranları (1240 x 1754)
-              width={1240} 
-              height={1754} 
-              className="w-full h-auto object-cover border-b border-stone-100 last:border-b-0"
-              // Vercel optimizasyonu: Sadece ilk 2 sayfa anında, diğer 20 sayfa kaydırdıkça yüklenir
-              priority={pageNumber <= 2} 
-            />
-          ))}
-          
+        {/* Yukarı Kaydır / Zıplama Animasyonu */}
+        <div className="animate-bounce flex flex-col items-center text-white drop-shadow-lg">
+          <span className="text-[10px] tracking-[0.3em] uppercase mb-2 opacity-90 font-medium">
+            Kaydır
+          </span>
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            className="opacity-90"
+          >
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
         </div>
-      </main>
+      </section>
 
-      {/* Alt Bilgi / Footer */}
-      <footer className="w-full py-10 text-center text-stone-400 text-sm border-t border-stone-200 bg-white">
-        &copy; {new Date().getFullYear()} Dora Kemer. Tüm hakları saklıdır.
-      </footer>
-    </div>
+      {/* 2. KISIM: Katalog Sayfaları (Sıfır Kenar Boşluğu) */}
+      <section className="w-full flex flex-col bg-white">
+        {pages.map((pageNumber) => (
+          <Image 
+            key={pageNumber}
+            src={`/images/sayfa-${pageNumber}.jpg`} 
+            alt={`Dora Kemer - Sayfa ${pageNumber}`} 
+            width={1240} 
+            height={1754} 
+            className="w-full h-auto object-cover block"
+            priority={pageNumber <= 2} 
+          />
+        ))}
+      </section>
+      
+    </main>
   );
 }

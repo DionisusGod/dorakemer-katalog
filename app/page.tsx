@@ -64,16 +64,6 @@ export default function Catalog() {
     <main className="w-full flex flex-col bg-white animate-in fade-in duration-1000">
       
       {/* Kapak Görseli (Artık 1. sayfa gibi davranıyor) */}
-      <Image 
-        src="/images/kapak.png"
-        alt="Dora Kemer Kapak"
-        width={1240}
-        height={1754}
-        className="w-full h-auto object-cover block"
-        priority
-        quality={100}
-        unoptimized
-      />
 
       {/* Diğer 22 Sayfa */}
       {pages.map((pageNumber) => (

@@ -1,52 +1,61 @@
 import Image from "next/image";
 
 export default function Catalog() {
-  // 1'den 22'ye kadar sayıları içeren bir dizi
   const pages = Array.from({ length: 22 }, (_, i) => i + 1);
 
   return (
-    <main className="w-full bg-white min-h-screen">
+    // Ana kapsayıcı relative yapıldı
+    <main className="relative w-full bg-white">
       
-      {/* 1. EKRAN: Tam Ekran Kapak ve Animasyon */}
-      <section className="relative w-full h-[100dvh] flex flex-col justify-end items-center pb-12 overflow-hidden">
+      {/* 1. EKRAN: SABİT (STICKY) KAPAK 
+          Kapak ekranda sabit kalır (sticky top-0), z-0 ile en alt katmana atılır.
+      */}
+      <section className="sticky top-0 w-full h-[100dvh] overflow-hidden bg-white z-0">
         
-        {/* KAPAK FOTOSU: Eksi katman hatası giderildi, arka plan yapıldı */}
-        <div className="absolute inset-0 w-full h-full">
+        {/* KAPAK FOTOSU */}
+        <div className="absolute inset-0 w-full h-full flex items-center justify-center">
           <Image 
             src="/images/kapak.png"
             alt="Dora Kemer Kapak"
-            width={1240} 
-            height={1754}
-            className="w-full h-auto object-cover block"
+            fill
+            className="object-contain object-center" 
             priority
             sizes="100vw"
+            quality={100}
+            unoptimized
           />
         </div>
+
+        {/* Yazı Okunabilirliği İçin Degrade */}
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/20 to-transparent z-10 pointer-events-none"></div>
         
-        {/* Yukarı Kaydır Animasyonu: Görselin üstünde kalması için z-10 eklendi */}
-        <div className="relative z-10 animate-bounce flex flex-col items-center text-white drop-shadow-2xl">
-          <span className="text-[10px] tracking-[0.3em] uppercase mb-2 opacity-90 font-bold drop-shadow-lg">
+        {/* Yukarı Kaydır Animasyonu */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce flex flex-col items-center text-white">
+          <span className="text-[11px] tracking-[0.4em] uppercase mb-2 font-semibold drop-shadow-md">
             Kaydır
           </span>
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
-            width="24" 
-            height="24" 
+            width="26" 
+            height="26" 
             viewBox="0 0 24 24" 
             fill="none" 
             stroke="currentColor" 
             strokeWidth="2" 
             strokeLinecap="round" 
-            strokeLinejoin="round" 
-            className="opacity-90 drop-shadow-lg"
+            strokeLinejoin="round"
+            className="drop-shadow-md"
           >
             <path d="m6 9 6 6 6-6"/>
           </svg>
         </div>
       </section>
 
-      {/* 2. KISIM: Katalog Sayfaları */}
-      <section className="w-full flex flex-col bg-white">
+      {/* 2. KISIM: KATALOG SAYFALARI (Kapağın üstüne kayarak çıkar) 
+          z-10 verilerek kapağın (z-0) üzerine çıkması sağlandı. 
+          Üst kısımdaki gölge (shadow) sayesinde katman hissi güçlendirildi.
+      */}
+      <section className="relative z-10 w-full flex flex-col bg-white shadow-[0_-20px_50px_rgba(0,0,0,0.15)]">
         {pages.map((pageNumber) => (
           <Image 
             key={pageNumber}
@@ -55,7 +64,9 @@ export default function Catalog() {
             width={1240} 
             height={1754} 
             className="w-full h-auto object-cover block"
-            priority={pageNumber <= 2} 
+            priority={pageNumber <= 2}
+            quality={100}
+            unoptimized 
           />
         ))}
       </section>

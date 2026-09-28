@@ -15,8 +15,9 @@ export default function Catalog() {
           <Image 
             src="/images/kapak.png"
             alt="Dora Kemer Kapak"
-            fill
-            className="object-cover object-center"
+            width={1240} 
+            height={1754}
+            className="w-full h-auto object-cover block"
             priority
             sizes="100vw"
           />

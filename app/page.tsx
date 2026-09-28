@@ -45,7 +45,7 @@ export default function Catalog() {
         {pages.map((pageNumber) => (
           <Image 
             key={pageNumber}
-            src={`/images/sayfa-${pageNumber}.jpg`} 
+            src={`/images/sayfa-${pageNumber}.jpeg`} 
             alt={`Dora Kemer - Sayfa ${pageNumber}`} 
             width={1240} 
             height={1754} 

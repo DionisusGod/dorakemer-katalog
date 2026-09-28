@@ -65,7 +65,7 @@ export default function Catalog() {
       
       {/* Kapak Görseli (Artık 1. sayfa gibi davranıyor) */}
       <Image 
-        src="/images/kapak.jpeg"
+        src="/images/kapak.png"
         alt="Dora Kemer Kapak"
         width={1240}
         height={1754}

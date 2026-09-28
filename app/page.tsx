@@ -13,7 +13,7 @@ export default function Catalog() {
         {/* KAPAK FOTOSU: Eksi katman hatası giderildi, arka plan yapıldı */}
         <div className="absolute inset-0 w-full h-full">
           <Image 
-            src="/images/kapak.jpeg"
+            src="/images/kapak.png"
             alt="Dora Kemer Kapak"
             fill
             className="object-cover object-center"

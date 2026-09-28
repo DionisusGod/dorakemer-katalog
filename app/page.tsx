@@ -15,6 +15,7 @@ export default function Catalog() {
           fill
           className="object-cover object-center -z-10"
           priority
+          unoptimized
           sizes="100vw"
         />
         

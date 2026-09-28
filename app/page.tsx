@@ -10,7 +10,7 @@ export default function Catalog() {
       {/* 1. EKRAN: Tam Ekran Kapak ve Animasyon */}
       <section className="relative w-full h-[100dvh] flex flex-col justify-end items-center pb-12 overflow-hidden">
         <Image 
-          src="/images/kapak.png"
+          src="/images/kapak.jpeg"
           alt="Dora Kemer Kapak"
           fill
           className="object-cover object-center -z-10"

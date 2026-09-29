@@ -19,7 +19,7 @@ export default function Catalog() {
       >
         <div className="absolute inset-0 w-full h-full opacity-60">
           <Image 
-            src="/images/arkaplan.png" 
+            src="/images//others/arkaplan.png" 
             alt="Dora Kemer Giriş"
             fill
             className="object-cover object-center"
@@ -44,7 +44,7 @@ export default function Catalog() {
       {/* 2. KATMAN: KATALOG SAYFALARI (Arka planda hazır bekler) */}
       <div className="w-full flex flex-col">
         <Image 
-          src="/images/kapak.png"
+          src="/images/others/kapak.png"
           alt="Dora Kemer Kapak"
           width={1240}
           height={1754}
@@ -61,7 +61,7 @@ export default function Catalog() {
             width={1240} 
             height={1754} 
             className="w-full h-auto object-cover block"
-            priority // Temel sorun olan lazy-loading iptal edildi, sayfalar hazırda bekletilir
+            priority={pageNumber <= 2} // Temel sorun olan lazy-loading iptal edildi, sayfalar hazırda bekletilir
             quality={100}
             unoptimized 
           />

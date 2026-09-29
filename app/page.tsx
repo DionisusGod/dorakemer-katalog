@@ -74,7 +74,7 @@ export default function Catalog() {
           width={1240} 
           height={1754} 
           className="w-full h-auto object-cover block"
-          priority={pageNumber <= 2}
+          priority={pageNumber <= 4}
           quality={100}
           unoptimized 
         />

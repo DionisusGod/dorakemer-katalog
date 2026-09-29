@@ -19,7 +19,7 @@ export default function Catalog() {
       >
         <div className="absolute inset-0 w-full h-full opacity-60">
           <Image 
-            src="/images/arkaplan.jpeg" 
+            src="/images/arkaplan.png" 
             alt="Dora Kemer Giriş"
             fill
             className="object-cover object-center"

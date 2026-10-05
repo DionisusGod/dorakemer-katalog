@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { Analytics } from "@vercel/analytics/next"
 
 export default function Catalog() {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
@@ -9,7 +10,7 @@ export default function Catalog() {
 
   return (
     <main className="relative w-full bg-white">
-      
+      <Analytics />
       {/* 1. KATMAN: GİRİŞ EKRANI */}
       <div 
         className={`fixed inset-0 z-50 flex items-center justify-center bg-stone-900 cursor-pointer transition-opacity duration-1000 ease-in-out ${

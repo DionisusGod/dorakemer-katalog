@@ -10,7 +10,7 @@ export default function Catalog() {
   return (
     <main className="relative w-full bg-white">
       
-      {/* 1. KATMAN: GİRİŞ EKRANI (Perde görevi görür) */}
+      {/* 1. KATMAN: GİRİŞ EKRANI */}
       <div 
         className={`fixed inset-0 z-50 flex items-center justify-center bg-stone-900 cursor-pointer transition-opacity duration-1000 ease-in-out ${
           isCatalogOpen ? "opacity-0 pointer-events-none" : "opacity-100"
@@ -19,13 +19,12 @@ export default function Catalog() {
       >
         <div className="absolute inset-0 w-full h-full opacity-60">
           <Image 
-            src="/images//others/arkaplan.png" 
+            src="/images/others/arkaplan.png" 
             alt="Dora Kemer Giriş"
             fill
             className="object-cover object-center"
-            priority // Giriş ekranı anında yüklenir
-            quality={100}
-            unoptimized
+            priority // Sadece ilk açılış ekranı priority almalı
+            sizes="100vw"
           />
         </div>
         
@@ -41,7 +40,7 @@ export default function Catalog() {
         </div>
       </div>
 
-      {/* 2. KATMAN: KATALOG SAYFALARI (Arka planda hazır bekler) */}
+      {/* 2. KATMAN: KATALOG SAYFALARI */}
       <div className="w-full flex flex-col">
         <Image 
           src="/images/others/kapak.png"
@@ -49,9 +48,8 @@ export default function Catalog() {
           width={1240}
           height={1754}
           className="w-full h-auto object-cover block"
-          priority // Arka planda anında indirmeye başlar
-          quality={100}
-          unoptimized
+          sizes="100vw"
+          // priority kaldırıldı, sadece açılınca yüklenecek
         />
         {pages.map((pageNumber) => (
           <Image 
@@ -61,9 +59,8 @@ export default function Catalog() {
             width={1240} 
             height={1754} 
             className="w-full h-auto object-cover block"
-            priority={pageNumber <= 2} // Temel sorun olan lazy-loading iptal edildi, sayfalar hazırda bekletilir
-            quality={100}
-            unoptimized 
+            sizes="100vw"
+            // Tüm sayfalar lazy-load olacak (varsayılan)
           />
         ))}
       </div>

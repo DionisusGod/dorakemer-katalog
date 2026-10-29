@@ -24,7 +24,7 @@ interface CatalogPage {
 }
 
 const catalogPages: CatalogPage[] = [
-  { id: "kapak", src: "/images/others/kapak.png", alt: "Dora Kemer Kapak" },
+  { id: "kapak", src: "/images/others/kapak.jpeg", alt: "Dora Kemer Kapak" },
   ...Array.from({ length: 27 }, (_, i) => ({
     id: `sayfa-${i + 1}`,
     src: `/images/sayfa-${i + 1}.jpeg`,

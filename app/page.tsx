@@ -8,14 +8,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import {
   EffectCoverflow,
   Mousewheel,
-  A11y,
+  FreeMode,
 } from "swiper/modules";
 
 // Swiper Stilleri
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/mousewheel";
-import "swiper/css/a11y";
+import "swiper/css/free-mode";
 
 interface CatalogPage {
   id: string;
@@ -39,7 +39,7 @@ export default function Catalog() {
       <SpeedInsights />
 
       <Swiper
-        modules={[EffectCoverflow, Mousewheel, A11y]}
+        modules={[EffectCoverflow, Mousewheel, FreeMode]}
         dir="ltr"
         direction="horizontal"
         effect="coverflow"
@@ -48,31 +48,42 @@ export default function Catalog() {
         centeredSlides={true}
         spaceBetween={0}
         initialSlide={0}
-        autoHeight={false}
         grabCursor={true}
         slideToClickedSlide={true}
         loop={false}
         roundLengths={true}
-        // Dokunmatik & Jest Ayarları (Dokunma anındaki gecikmeyi ve takılmayı sıfırlama)
-        cssMode={false}
-        simulateTouch={true}
         watchSlidesProgress={true}
-        allowSlidePrev={true}
-        allowSlideNext={true}
-        allowTouchMove={true}
-        followFinger={true}
-        longSwipes={true}
-        shortSwipes={true}
-        touchStartPreventDefault={false}
-        touchReleaseOnEdges={true}
-        observer={false}
-        observeParents={false}
-        resizeObserver={true}
         resistance={true}
         resistanceRatio={0.85}
         threshold={3}
-        touchRatio={1}
-        a11y={true}
+        touchReleaseOnEdges={true}
+        // Sticky FreeMode: Hızlı savurmada 2-3 sayfa akar, durduğunda en yakın sayfaya yumuşakça kilitlenir
+        freeMode={{
+          enabled: true,
+          sticky: true,
+          momentum: true,
+          momentumRatio: 0.45,
+          momentumVelocityRatio: 0.5,
+          momentumBounce: false,
+          minimumVelocity: 0.02,
+        }}
+        // Görünmez Kenar Dokunuşları (Tap-to-Navigate): Aktif kartın sağına/soluna tek tıkla sayfa çevirme
+        onClick={(swiper, event) => {
+          if (swiper.clickedIndex === swiper.activeIndex && swiper.clickedSlide) {
+            const rect = swiper.clickedSlide.getBoundingClientRect();
+            const clientX =
+              "clientX" in event && typeof event.clientX === "number"
+                ? event.clientX
+                : (event as unknown as TouchEvent).changedTouches?.[0]?.clientX ?? 0;
+
+            const clickXRatio = (clientX - rect.left) / rect.width;
+            if (clickXRatio < 0.25) {
+              swiper.slidePrev();
+            } else if (clickXRatio > 0.75) {
+              swiper.slideNext();
+            }
+          }
+        }}
         // Varsayılan (Mobil) Coverflow Ayarları
         coverflowEffect={{
           rotate: 26,

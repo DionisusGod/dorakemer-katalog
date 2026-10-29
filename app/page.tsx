@@ -1,73 +1,133 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  EffectCoverflow,
+  Mousewheel,
+  A11y,
+} from "swiper/modules";
+
+// Swiper Stilleri
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/mousewheel";
+import "swiper/css/a11y";
+
+interface CatalogPage {
+  id: string;
+  src: string;
+  alt: string;
+}
+
+const catalogPages: CatalogPage[] = [
+  { id: "kapak", src: "/images/others/kapak.png", alt: "Dora Kemer Kapak" },
+  ...Array.from({ length: 27 }, (_, i) => ({
+    id: `sayfa-${i + 1}`,
+    src: `/images/sayfa-${i + 1}.jpeg`,
+    alt: `Dora Kemer - Sayfa ${i + 1}`,
+  })),
+];
 
 export default function Catalog() {
-  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
-  const pages = Array.from({ length: 22 }, (_, i) => i + 1);
-
   return (
-    <main className="relative w-full bg-white">
+    <main className="relative w-full h-dvh bg-stone-950 overflow-hidden select-none flex items-center justify-center">
       <Analytics />
       <SpeedInsights />
-      {/* 1. KATMAN: GİRİŞ EKRANI */}
-      <div 
-        className={`fixed inset-0 z-50 flex items-center justify-center bg-stone-900 cursor-pointer transition-opacity duration-1000 ease-in-out ${
-          isCatalogOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
-        onClick={() => setIsCatalogOpen(true)}
-      >
-        <div className="absolute inset-0 w-full h-full opacity-60">
-          <Image 
-            src="/images/others/arkaplan.png" 
-            alt="Dora Kemer Giriş"
-            fill
-            className="object-cover object-center"
-            priority // Sadece ilk açılış ekranı priority almalı
-            sizes="100vw"
-          />
-        </div>
-        
-        <div className="relative z-10 flex flex-col items-center justify-center animate-pulse hover:scale-105 transition-transform duration-500">
-          <div className="w-28 h-28 md:w-32 md:h-32 rounded-full border-[1px] border-white/60 bg-black/20 backdrop-blur-sm flex items-center justify-center mb-6 shadow-2xl">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </div>
-          <span className="text-white tracking-[0.6em] font-light text-xs md:text-sm uppercase drop-shadow-md">
-            Kataloğu İncele
-          </span>
-        </div>
-      </div>
 
-      {/* 2. KATMAN: KATALOG SAYFALARI */}
-      <div className="w-full flex flex-col">
-        <Image 
-          src="/images/others/kapak.png"
-          alt="Dora Kemer Kapak"
-          width={1240}
-          height={1754}
-          className="w-full h-auto object-cover block"
-          sizes="100vw"
-          // priority kaldırıldı, sadece açılınca yüklenecek
-        />
-        {pages.map((pageNumber) => (
-          <Image 
-            key={pageNumber}
-            src={`/images/sayfa-${pageNumber}.jpeg`} 
-            alt={`Dora Kemer - Sayfa ${pageNumber}`} 
-            width={1240} 
-            height={1754} 
-            className="w-full h-auto object-cover block"
-            sizes="100vw"
-            // Tüm sayfalar lazy-load olacak (varsayılan)
-          />
+      <Swiper
+        modules={[EffectCoverflow, Mousewheel, A11y]}
+        dir="ltr"
+        direction="horizontal"
+        effect="coverflow"
+        speed={480}
+        slidesPerView="auto"
+        centeredSlides={true}
+        spaceBetween={0}
+        initialSlide={0}
+        autoHeight={false}
+        grabCursor={true}
+        slideToClickedSlide={true}
+        loop={false}
+        roundLengths={true}
+        // Dokunmatik & Jest Ayarları (Dokunma anındaki gecikmeyi ve takılmayı sıfırlama)
+        cssMode={false}
+        simulateTouch={true}
+        watchSlidesProgress={true}
+        allowSlidePrev={true}
+        allowSlideNext={true}
+        allowTouchMove={true}
+        followFinger={true}
+        longSwipes={true}
+        shortSwipes={true}
+        touchStartPreventDefault={false}
+        touchReleaseOnEdges={true}
+        observer={false}
+        observeParents={false}
+        resizeObserver={true}
+        resistance={true}
+        resistanceRatio={0.85}
+        threshold={3}
+        touchRatio={1}
+        a11y={true}
+        // Varsayılan (Mobil) Coverflow Ayarları
+        coverflowEffect={{
+          rotate: 26,
+          stretch: 0,
+          depth: 70,
+          modifier: 1,
+          slideShadows: false,
+        }}
+        // Masaüstü ve Mobil Ayrımı
+        breakpoints={{
+          // Mobil (< 768px): Dokunma akıcılığı için mousewheel tamamen kapalı, akıcı 3D açı
+          0: {
+            mousewheel: false,
+            coverflowEffect: {
+              rotate: 26,
+              stretch: 0,
+              depth: 70,
+              modifier: 1,
+              slideShadows: false,
+            },
+          },
+          // Masaüstü (>= 768px - Macbook): Touchpad/fare tekerleği aktif, 34 derece rotasyon
+          768: {
+            mousewheel: {
+              forceToAxis: true,
+              releaseOnEdges: true,
+              sensitivity: 1,
+            },
+            coverflowEffect: {
+              rotate: 34,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: false,
+            },
+          },
+        }}
+        className="w-full h-full !overflow-hidden"
+      >
+        {catalogPages.map((page, index) => (
+          <SwiperSlide
+            key={page.id}
+            className="!w-[min(92vw,calc(88dvh*9/16))] !h-[min(88dvh,calc(92vw*16/9))] rounded-[26px] md:rounded-[34px] overflow-hidden shadow-[0_16px_36px_rgba(0,0,0,0.7)] border border-white/10 relative my-auto bg-stone-900"
+          >
+            <Image
+              src={page.src}
+              alt={page.alt}
+              fill
+              className="object-cover select-none"
+              sizes="(max-width: 768px) 92vw, 600px"
+              priority={index <= 2}
+            />
+          </SwiperSlide>
         ))}
-      </div>
-      
+      </Swiper>
     </main>
   );
 }
